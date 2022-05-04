@@ -48,3 +48,34 @@ multipass exec btc -- bitcoin-cli -testnet getblockchaininfo
 #   "warnings": ""
 # }
 ```
+
+## expose multipass guest to your network
+**All these commands are temporary, if you want them to persist after reboot, please use crontab**.
+### activate ip forwarding
+```sh
+sysctl -w net.ipv4.ip_forward=1
+```
+
+### Gather informations
+host link:
+```sh
+ip link 
+LINK=eth0
+```
+
+guest ip:
+```sh
+multipass info jellyfin | grep "IPv4:.*" # show guest ip
+IP=10.204.183.40
+```
+
+guest port:
+```sh
+PORT=8096 # default jellyfin port
+```
+
+### iptables
+```sh
+sudo iptables -t nat -I PREROUTING 1 -i $LINK -p tcp --dport $PORT -j DNAT --to-destination $IP:$PORT
+sudo iptables -I FORWARD 1 -p tcp -d $IP --dport $PORT -j ACCEPT
+```
