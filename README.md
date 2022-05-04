@@ -27,7 +27,7 @@ multipass exec jellyfin -- sudo service jellyfin status
 
 ### bitcoin
 ```sh
-multipass launch --name btc --cloud-init jellyfin.yaml --disk 40G # testnet blockchain
+multipass launch --name btc --cloud-init bitcoin.yaml --disk 40G # testnet blockchain
 ```
 
 ```sh
