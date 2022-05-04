@@ -5,12 +5,11 @@ package_update: true
 package_upgrade: true
 
 runcmd:
-  - wget https://bitcoincore.org/bin/bitcoin-core-23.0/bitcoin-23.0-x86_64-linux-gnu.tar.gz # download bitcoin
-  - wget https://bitcoincore.org/bin/bitcoin-core-23.0/SHA256SUMS # download the list of cryptographic checksums
-  - wget https://bitcoincore.org/bin/bitcoin-core-23.0/SHA256SUMS.asc # download the signatures attesting to validity of the checksums
-  - sha256sum --ignore-missing --check SHA256SUMS # verify checksums, you must ensure the output lists "OK"
-  - tar -xvf bitcoin-23.0-x86_64-linux-gnu.tar.gz
-  - /usr/bin/sudo install -m 0755 -o root -g root -t /usr/local/bin bitcoin-23.0/bin/* # install
+  - snap install bitcoin-core
+  - echo '#bitcoin-core alias' >> /home/ubuntu/.bashrc
+  - echo alias bitcoind='bitcoin-core.daemon' >> /home/ubuntu/.bashrc
+  - echo alias bitcoin-cli='bitcoin-core.cli' >> /home/ubuntu/.bashrc
+  - echo alias cli=bitcoin-cli >> /home/ubuntu/.bashrc
   - reboot
 
 bootcmd:
